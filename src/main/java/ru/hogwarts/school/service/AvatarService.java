@@ -15,6 +15,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.NoSuchElementException;
 
 @Service
 public class AvatarService {
@@ -32,6 +33,7 @@ public class AvatarService {
     }
 
     public Avatar upload(Long studentId, MultipartFile file) throws IOException {
+        logger.info("Was invoked method for upload avatar for student with ID: {}", studentId);
         Student student = studentRepository.findById(studentId).orElseThrow();
 
         Path directory = Path.of("avatars");
@@ -50,10 +52,15 @@ public class AvatarService {
     }
 
     public Avatar get(Long id) {
-        return avatarRepository.findById(id).orElseThrow();
+        logger.info("Was invoked method for get avatar with ID: {}", id);
+        return avatarRepository.findById(id).orElseThrow(() -> {
+            logger.error("No any avatar with ID: {}", id);
+            return new NoSuchElementException("Not found" + id);
+        });
     }
 
     public Page<Avatar> getAll(Pageable pageable) {
+        logger.info("Was invoked method for get all avatars");
         return avatarRepository.findAll(pageable);
     }
 }
