@@ -63,6 +63,7 @@ public class StudentService {
         logger.info("Was invoked method for get faculty of student with ID: {}", id);
         Student student = studentRepository.findById(id).orElse(null);
         if (student == null) {
+            logger.warn("There is no student with ID: {}", id);
             return null;
         }
         return student.getFaculty();

@@ -23,23 +23,29 @@ public class FacultyService {
     }
 
     public Faculty create(Faculty faculty) {
+        logger.info("Was invoked method for create faculty");
         return facultyRepository.save(faculty);
     }
 
     public Faculty get(Long id) {
+        logger.info("Was invoked method for get faculty with ID: {}", id);
         return facultyRepository.findById(id).orElse(null);
     }
 
     public Faculty update(Long id, Faculty faculty) {
+        logger.info("Was invoked method for update faculty with ID: {}", id);
         faculty.setId(id);
         return facultyRepository.save(faculty);
     }
 
     public void delete(Long id) {
+        logger.info("Was invoked method for delete faculty with ID: {}", id);
         facultyRepository.deleteById(id);
     }
 
     public List<Faculty> getByNameOrColor(String name, String color) {
+        logger.info("Was invoked method for get faculties by name or color");
+        logger.info("Search by parameters: name = {}, color = {}", name, color);
         if (name != null && color != null) {
             return facultyRepository.findByNameIgnoreCaseAndColorIgnoreCase(name, color);
         }
@@ -53,6 +59,8 @@ public class FacultyService {
     }
 
     public List<Faculty> getByNameOrColor(String name) {
+        logger.info("Was invoked method for search faculties by name or color");
+        logger.info("Search by parameter: name = {}", name);
         if (name != null) {
             return facultyRepository
                     .findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, name);
@@ -61,8 +69,10 @@ public class FacultyService {
     }
 
     public List<Student> getStudents(Long facultyId) {
+        logger.info("Was invoked method for get students of faculty with ID: {}", facultyId);
         Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
         if (faculty == null) {
+            logger.warn("There is no faculty with ID: {}", facultyId);
             return null;
         }
         return faculty.getStudents();
