@@ -1,5 +1,7 @@
 package ru.hogwarts.school.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,6 +20,8 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+    private static final Logger logger =
+            LoggerFactory.getLogger(StudentController.class);
 
     @PostMapping
     public Student create(@RequestBody Student student) {
@@ -28,6 +32,7 @@ public class StudentController {
     public Student get(@PathVariable Long id) {
         Student student = studentService.get(id);
         if (student == null) {
+            logger.error("No student with ID: {}", id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return student;

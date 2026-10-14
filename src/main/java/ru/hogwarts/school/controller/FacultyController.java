@@ -1,5 +1,7 @@
 package ru.hogwarts.school.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +19,8 @@ public class FacultyController {
     public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
+    private static final Logger logger =
+            LoggerFactory.getLogger(FacultyController.class);
 
     @PostMapping
     public Faculty create(@RequestBody Faculty faculty) {
@@ -27,6 +31,7 @@ public class FacultyController {
     public Faculty get(@PathVariable Long id) {
         Faculty faculty = facultyService.get(id);
         if (faculty == null) {
+            logger.error("No faculty with ID: {}", id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return faculty;
