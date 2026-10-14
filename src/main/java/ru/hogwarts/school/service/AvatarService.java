@@ -34,7 +34,10 @@ public class AvatarService {
 
     public Avatar upload(Long studentId, MultipartFile file) throws IOException {
         logger.info("Was invoked method for upload avatar for student with ID: {}", studentId);
-        Student student = studentRepository.findById(studentId).orElseThrow();
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> {
+            logger.error("No student with ID: {}", studentId);
+            return new NoSuchElementException("No student with ID:" + studentId);
+        });
 
         Path directory = Path.of("avatars");
         Files.createDirectories(directory);
