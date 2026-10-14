@@ -45,7 +45,7 @@ public class StudentService {
 
     public List<Student> getByAge(Integer min, Integer max) {
         logger.info("Was invoked method for get students by age");
-        logger.debug("Age limitations: min = {}", min, ", max = {}", max);
+        logger.info("Age limitations: min = {}, max = {}", min, max);
 
         if (min != null && max != null) {
             return studentRepository.findByAgeBetween(min, max);
