@@ -28,24 +28,24 @@ public class StudentService {
     }
 
     public Student get(Long id) {
-        logger.info("Was invoked method for get student with ID: ", id);
+        logger.info("Was invoked method for get student with ID: {}", id);
         return studentRepository.findById(id).orElse(null);
     }
 
     public Student update(Long id, Student student) {
-        logger.info("Was invoked method for update student with ID: ", id);
+        logger.info("Was invoked method for update student with ID: {}", id);
         student.setId(id);
         return studentRepository.save(student);
     }
 
     public void delete(Long id) {
-        logger.info("Was invoked method for delete student with ID: ", id);
+        logger.info("Was invoked method for delete student with ID: {}", id);
         studentRepository.deleteById(id);
     }
 
     public List<Student> getByAge(Integer min, Integer max) {
         logger.info("Was invoked method for get students by age");
-        logger.debug("Age limitations: min = ", min, ", max = ", max);
+        logger.debug("Age limitations: min = {}", min, ", max = {}", max);
 
         if (min != null && max != null) {
             return studentRepository.findByAgeBetween(min, max);
@@ -60,7 +60,7 @@ public class StudentService {
     }
 
     public Faculty getFaculty(Long id) {
-        logger.info("Was invoked method for get faculty of student with id = ", id);
+        logger.info("Was invoked method for get faculty of student with ID: {}", id);
         Student student = studentRepository.findById(id).orElse(null);
         if (student == null) {
             return null;
